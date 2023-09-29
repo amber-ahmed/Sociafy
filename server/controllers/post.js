@@ -48,7 +48,7 @@ router.delete(
             const post = await postModel.findById(postId);
             if (!post)
                 res.status(404).json({ success: false, msg: "Post not found" });
-            await postModel.deleteOne({_id : postId})
+            await postModel.deleteOne({ _id: postId })
             res.status(200).json({ success: true, msg: "Post deleted" });
 
         } catch (error) {
@@ -58,13 +58,15 @@ router.delete(
     }
 );
 
-router.get("/fetchall", auth, async (req, res) => {
+router.get("/fetchall/:userId", async (req, res) => {
     try {
         const posts = await postModel
-            .find({ user: req.body.userFound }).populate('user')
-        res.status(200).json({ success: true,posts, msg: "Fetched all posts" });
+            .find({ user: req.params.userId })
+            .populate('user')
+            .sort({ createdAt: -1 });
+        res.status(200).json({ success: true, posts, msg: "Fetched all posts" });
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(500).json({ success: false, msg: "Internal Server Error" });
     }
 });

@@ -1,6 +1,6 @@
 import axios from 'axios'
 export const api = axios.create({
-    baseURL: 'http://localhost:5012/api'
+    baseURL: '/api'
 })
 api.interceptors.request.use((config) => {
     const authToken = localStorage.getItem('token');
@@ -15,9 +15,16 @@ api.interceptors.response.use(
     },
     (error) => {
         console.log(error)
-        if (error?.response?.status == 401) {
+        if (error?.response?.status == 498) {
+            const currentPath = window.location.pathname;
+            let authPath = currentPath.split('/')
+            authPath = authPath[1]
             localStorage.removeItem('token')
-            return window.location.replace('/user/register')
+            if (authPath !== 'login' && authPath !== 'register' && authPath !== '')
+                return window.location.replace('/login')
+        }
+        if (error?.response?.status == 401) {
+            return window.location.replace('/login')
         }
         return Promise.reject(error)
     }

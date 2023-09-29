@@ -1,6 +1,6 @@
 import React from 'react'
 
-const EditPost = ({ open, setOpen, post, setPost, editPost }) => {
+const EditPost = ({ open, setOpen, editPostText, setEditPostText, editPostHandler }) => {
     return (
         <>
             <div
@@ -35,12 +35,12 @@ const EditPost = ({ open, setOpen, post, setPost, editPost }) => {
                         </button>
                         <div className="p-6 text-center">
 
-                            <input type='text' onChange={(e) => setPost(e.target.value)} value={post} className="w-full mt-6" placeholder='edit post' />
+                            <textarea rows="4" onChange={(e) => setEditPostText(e.target.value)} value={editPostText} className="w-full my-6" placeholder='edit editPostText' />
                             <button
-                                onClick={editPost}
+                                onClick={editPostHandler}
                                 data-modal-hide="popup-modal"
                                 type="button"
-                                className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+                                className="text-white bg-cyan-600 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
                             >
                                 Update
                             </button>

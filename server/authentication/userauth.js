@@ -9,14 +9,15 @@ async function auth(req, res, next) {
         let userFound = await userModel.findOne({ _id: id });
         if (userFound) {
             req.body.userFound = userFound
+            req.body.userId = id
             req.body.email = userFound.email
             return next()
         }
-        return res.status(498).json({ success: false, msg: "unauthorized access" })
+        return res.status(401).json({ success: false, msg: "Unauthorised Access" });
 
     } catch (error) {
         console.log(error)
-        return res.status(401).json({ success: false, msg: 'token error' })
+        return res.status(498).json({ success: false, msg: 'token error' })
     }
 
 }

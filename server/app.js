@@ -10,6 +10,7 @@ import postRouter from "./controllers/post.js"
 import { dirname } from "path"
 import { fileURLToPath } from "url"
 import path from "path"
+import auth from "./authentication/userauth.js";
 
 const port = config.get("PORT");
 console.log(port);
@@ -19,13 +20,11 @@ app.use(cors());
 
 app.use(express.json());
 
+app.get('/api/user/auth', auth, (req, res) => {
+    res.status(200).json({ success: true, msg: 'authorized', userId: req.body.userId });
+})
 app.use("/api/user", userRouter);
-
 app.use("/api/post", postRouter);
-
-// app.get("/", (req, res) => {
-//     res.send("Welcome to Scheduler backend")
-// })
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 app.use(express.static(path.join(__dirname, "build")));

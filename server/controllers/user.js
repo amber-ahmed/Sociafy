@@ -8,6 +8,7 @@ import userModel from "../models/Users/index.js";
 
 //Import Utils
 import tokenGenerator from "../utils/tokengenerator.js";
+import auth from "../authentication/userauth.js";
 
 router.post(
     "/register",
@@ -51,16 +52,32 @@ router.post("/login", async (req, res) => {
             id: userFound._id
         }
         let token = tokenGenerator(payload, '1d');
-        res.status(200).json({ success: true, msg: 'logged in successfully', token });
+        res.status(200).json({ success: true, msg: 'logged in successfully', token,userFound });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, msg: "Internal Server Error" });
     }
 })
-router.get("/fetchuser/:email", async (req, res) => {
+router.get("/searchuser/:email", async (req, res) => {
     try {
-        let userFound = await userModel.findOne({ email: req.params.email });
-        if (!userFound) {
+        let userFound = await userModel.findOne({
+            email: req.params.email
+
+        }); if (!userFound) {
+            return res.status(401).json({ success: false, msg: "User Not  Found" });
+        }
+        delete userFound.password
+        res.status(200).json({ success: true, msg: 'fetched user details successfully', userFound });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, msg: "Internal Server Error" });
+    }
+})
+router.get("/fetchuser",auth, async (req, res) => {
+    try {
+        let userFound = await userModel.findOne(
+            { _id: req.body.userFound }
+        ); if (!userFound) {
             return res.status(401).json({ success: false, msg: "User Not  Found" });
         }
         delete userFound.password

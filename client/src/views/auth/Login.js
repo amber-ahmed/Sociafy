@@ -1,12 +1,14 @@
-import React, { useRef } from 'react'
+import React, { useContext, useRef } from 'react'
 import Navbar from '../../layouts/Navbar'
 import { api } from '../../api'
 import { useNavigate } from 'react-router-dom'
+import { ValueContext } from '../../context'
 
 const Login = () => {
     const email = useRef()
     const password = useRef()
     const navigate = useNavigate()
+    const { setUserDetails } = useContext(ValueContext)
     async function submitHandler(e) {
         e.preventDefault();
         try {
@@ -16,10 +18,13 @@ const Login = () => {
             };
             const { data } = await api.post('/user/login', userData)
             console.log(data)
+            localStorage.setItem('token', data.token)
+            setUserDetails({logged : true,
+            userId : data.userFound._id})
             navigate('/home')
         } catch (error) {
             console.log(error);
-            alert(error?.response?.data?.msg)
+            // alert(error?.message)
         }
     } return (
         <>
