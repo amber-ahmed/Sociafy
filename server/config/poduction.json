@@ -1,0 +1,5 @@
+{
+    "PORT":"8001",
+    "PRIVATE_KEY":"socaify",
+    "URL":"http://localhost:8001"
+}

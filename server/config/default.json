@@ -1,0 +1,7 @@
+{
+    "PORT":"5012",
+    "PRIVATE_KEY":"socaify",
+    "URL":"http://localhost:5012",
+    "TOKEN_KEY" : "post",
+    "DB_URI":"mongodb+srv://amber:amber123@cluster0.tff9hz5.mongodb.net/socaify"
+}
