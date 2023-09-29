@@ -1,40 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Sociafy - Project ReadMe</title>
-</head>
-<body>
-    <h1>Sociafy - Project ReadMe</h1>
+# Sociafy
+# Prerequisites
+Node.js: Install Node.js from nodejs.org.
+Git: Install Git from git-scm.com.
+Getting Started
 
-    <h2>Prerequisites</h2>
-    <p>Before you begin, ensure you have met the following requirements:</p>
-    <ul>
-        <li><strong>Node.js:</strong> Install Node.js from <a href="https://nodejs.org/">nodejs.org</a>.</li>
-        <li><strong>Git:</strong> Install Git from <a href="https://git-scm.com/">git-scm.com</a>.</li>
-    </ul>
+# Clone the repository:
 
-    <h2>Getting Started</h2>
-    <ol>
-        <li>Clone the repository:</li>
-        <pre><code>git clone git@github.com:amber-ahmed/Sociafy.git</code></pre>
+bash
+Copy code
+git clone git@github.com:amber-ahmed/Sociafy.git
 
-        <li>Install dependencies for the backend:</li>
-        <pre><code>cd Sociafy/server<br>npm install</code></pre>
-    </ol>
+# Install dependencies for the backend and frontend:
 
-    <h2>Running the Project</h2>
-    <ol>
-        <li>Start the server:</li>
-        <pre><code>cd Sociafy/server<br>npm app.js</code></pre>
+bash
+Copy code
+cd Sociafy/server
+npm install
 
-        <li>Running the client separately:</li>
-        <pre><code>cd Sociafy/client<br>npm install</code></pre>
+Running the Project
+# Start the server:
 
-        <li>Start the client:</li>
-        <pre><code>cd client<br>npm start</code></pre>
-    </ol>
+bash
+Copy code
+cd Sociafy/server
+npm app.js
 
-    <p>Now you can access your Sociafy project by navigating to the provided URL in your web browser.</p>
+# running client separately
 
-    <p>Feel free to customize this README to include any additional information about your project as needed.</p>
-</body>
+bash
+Copy code
+cd Sociafy/client
+npm install
+
+# start client 
+
+bash
+Copy code
+cd client
+npm start
