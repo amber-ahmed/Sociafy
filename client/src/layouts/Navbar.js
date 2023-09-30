@@ -5,8 +5,8 @@ import Alert from './Alert';
 import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
-    const [menu, setMenu] = React.useState('')
-    const {userDetails,setUserDetails} = React.useContext(ValueContext)
+    const [menu, setMenu] = React.useState(false)
+    const { userDetails, setUserDetails } = React.useContext(ValueContext)
     const [openAlert, setOpenAlert] = React.useState(false)
     const navigate = useNavigate()
     const logOutHandler = () => {
@@ -30,7 +30,7 @@ export default function Navbar() {
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
                         </svg>
                     </button>
-                    <div class={`${menu ? 'hidden' : ''} bg-cyan-500 w-full md:block md:w-auto`} id="navbar-default">
+                    <div class={`${menu ? '' : 'hidden'} bg-cyan-500 w-full md:block md:w-auto`} id="navbar-default">
                         <ul class="bg-cyan-500 font-medium   flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-bg-cyan-500  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                             {userDetails.logged && <>
                                 <li>
@@ -41,7 +41,7 @@ export default function Navbar() {
                                         <img src={homeIcon} alt="home icon" width={30} height={30} />
                                     </a>
                                 </li>
-                                <li onClick={()=>setOpenAlert(!openAlert)}>
+                                <li onClick={() => setOpenAlert(!openAlert)}>
                                     <a href="#" class="block bg-cyan-500 py-2 pl-3 pr-4 text-gray-900 rounded  hover:bg-gray-100 hover:text-blue-700 md:hover:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Log Out</a>
                                 </li></>}
                             {!userDetails.logged && <>

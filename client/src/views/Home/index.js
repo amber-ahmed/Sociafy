@@ -6,14 +6,14 @@ import { ValueContext } from '../../context'
 import { api } from '../../api'
 import Navbar from '../../layouts/Navbar'
 const Home = () => {
-  const [menu, setMenu] = useState(false)
-  const {userDetails} = useContext(ValueContext)
+  const [menu, setMenu] = useState([])
+  const { userDetails } = useContext(ValueContext)
   const [openAlert, setOpenAlert] = useState(false)
   const [editModal, setEditModal] = useState(false)
   const [posts, setPosts] = useState([])
   const [postText, setPostText] = useState()
   const [userData, setUserData] = useState({ userId: '', username: '' })
-  const searchEmail = useRef('')
+  const userSearchKey = useRef('')
   const [editPostText, setEditPostText] = useState('')
   const [reload, setReload] = useState(false)
   const [activePostId, setActivePostId] = useState('')
@@ -66,7 +66,7 @@ const Home = () => {
 
   const searchUser = async () => {
     try {
-      const { data } = await api.get('/user/searchuser/' + searchEmail.current.value)
+      const { data } = await api.get('/user/searchuser/' + userSearchKey.current.value)
       const { data: post } = await api.get('/post/fetchall/' + data.userFound._id)
       console.log(post.posts)
       setPosts(post.posts)
@@ -110,23 +110,25 @@ const Home = () => {
     setOpenAlert(!openAlert)
     setActivePostId(postId)
   }
+  const postMenuHandler = (index) => {
+    let menuOptions = [...menu]
+    menuOptions[index] = !menuOptions[index]
+    setMenu(menuOptions)
+  }
   return (
     <>
       <Navbar />
       <Alert open={openAlert} setOpen={setOpenAlert} msg='Do you really want to delete this post' okText='Delete' cancelText='Cancel' okFun={deletePostHandler} />
       <EditPost open={editModal} setOpen={setEditModal} editPostText={editPostText} setEditPostText={setEditPostText} editPostHandler={editPostHandler} />
 
-      <div className="relative mt-8 mx-4">
-
-        <div className="absolute h-full pb-8 flex items-center pl-3 pointer-events-none">
+      <div className="relative mt-4 mx-4">
+        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <svg
-            className=" text-gray-500 dark:text-gray-400"
+            className="w-4 h-4 text-gray-500 dark:text-gray-400"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 20 20"
-            width={30}
-            height={30}
           >
             <path
               stroke="currentColor"
@@ -139,15 +141,14 @@ const Home = () => {
         </div>
         <input
           type="search"
-          ref={searchEmail}
+          ref={userSearchKey}
           id="default-search"
           className="block w-full   p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-cyan-50 focus:ring-cyan-500 focus:border-cyan-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
-          placeholder="Search users"
-          required=""
+          placeholder="Search User by email or username"
+          required={true}
         />
         <button
           onClick={searchUser}
-          type="submit"
           className="text-white absolute right-2.5 bottom-2.5 bg-cyan-500 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
         >
           Search
@@ -201,7 +202,7 @@ const Home = () => {
             </div>}
 
 
-          {posts.map((post) => {
+          {posts.map((post, index) => {
             return (
               <div className="block rounded-lg mt-8  w-full  bg-white text-center shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
                 <div className="flex flex-row justify-between border-b-2 border-neutral-100 px-6 py-3 dark:border-neutral-600 dark:text-neutral-50">
@@ -213,13 +214,13 @@ const Home = () => {
                   </div>
                   {userDetails.userId === userData._id &&
                     <div className="dropdown dropdown-start" >
-                      <button onClick={() => setMenu(!menu)} type="button" class="text-cyan-500 border  hover:bg-cyan-500 hover:text-white  font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center dark:border-cyan-500 dark:text-cyan-500 dark:hover:text-white dark:focus:ring-cyan-800 dark:hover:bg-cyan-500">
+                      <button onClick={() => postMenuHandler(index)} type="button" class="text-cyan-500 border  hover:bg-cyan-500 hover:text-white  font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center dark:border-cyan-500 dark:text-cyan-500 dark:hover:text-white dark:focus:ring-cyan-800 dark:hover:bg-cyan-500">
                         <svg width="25px" height="25px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#000000" class="bi bi-three-dots-vertical">
                           <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                         </svg>
                         <span class="sr-only">Icon description</span>
                       </button>
-                      <ul tabIndex={0} className={`${menu ? '' : 'hidden'} dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52`}>
+                      <ul tabIndex={0} className={`${menu[index] ? '' : 'hidden'} dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52`}>
                         <li className='hover:bg-gray-200' onClick={() => deleteHandler(post._id)}><button >Delete</button></li>
                         <li className='hover:bg-gray-200' onClick={() => editHandler(post.post, post._id)}><button  >Edit</button></li>
                       </ul>
